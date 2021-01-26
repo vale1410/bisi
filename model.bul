@@ -1,0 +1,44 @@
+%% g[A,B]. 
+%% n: size of graph 
+%% k: size of smallest cycle
+
+g[X,_] :: color[X].
+g[_,Y] :: color[Y].
+node[1..n].
+
+#exists[1], node[X], color[C] :: v(X,C)?
+#exists[1], node[X], node[Y]  :: e(X,Y)?
+#exists[1], node[X], node[Y], color[C] :: a(X,Y,C)?
+
+node[X] ::  v(X,C) : color[C].
+C1 < C2 :: ~v(X,C1), ~v(X,C2).
+
+~v(Y,C), ~e(X,Y), a(X,Y,C).
+~a(_,Y,C), v(Y,C).
+~a(X,Y,_), e(X,Y).
+
+node[X], g[C1,C2]  :: ~v(X,C1), a(X,Y,C2) : node[Y].  
+
+color[C1], color[C2], ~g[C1,C2] :: ~v(X,C1), ~e(X,Y), ~v(Y,C2).
+
+%% k==1
+~e(A,A).
+
+%% k==2
+~e(A,B), ~e(B,A). 
+
+%% k==3
+~e(A,B), ~e(B,C), ~e(C,A). 
+
+%% k==3
+~e(A,B), ~e(B,C), ~e(C,D), ~e(D,A).
+
+%%% % there is no cycle of length 4 
+%%% node[A], node[B], node[C], node[D],
+%%% A!=B, A!=C, A!=D,  B!=C, B!=D,  C!=D ::
+%%% ~e(A,B), ~e(B,C), ~e(C,D), ~e(D,A), ~e(A,C). 
+%%% 
+%%% % there is no cycle of length 4 
+%%% node[A], node[B], node[C], node[D],
+%%% A!=B, A!=C, A!=D,  B!=C, B!=D,  C!=D ::
+%%% ~e(A,B), ~e(B,C), ~e(C,D), ~e(D,A), ~e(C,A). 
