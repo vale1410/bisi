@@ -1,0 +1,24 @@
+%% g[A,B]. 
+%% n: size of graph 
+%% k: size of smallest cycle
+
+g[X,_] :: color[X].
+g[_,Y] :: color[Y].
+node[1..n].
+cycle[1..k].
+
+node[X], node[Y], color[C] :: ~v(Y,C), ~e(X,Y), a(X,Y,C).
+~a(_,Y,C), v(Y,C).
+~a(X,Y,_), e(X,Y).
+
+node[X] ::  v(X,C) : color[C].
+C1 < C2 :: ~v(X,C1), ~v(X,C2).
+
+node[X], g[C1,C2]  :: ~v(X,C1), a(X,Y,C2) : node[Y].  
+
+color[C1], color[C2], ~g[C1,C2] :: ~v(X,C1), ~e(X,Y), ~v(Y,C2).
+
+node[X], node[Y], node[Z], cycle[K] :: ~f(X,Y,K-1), ~e(Y,Z), f(X,Z,K).
+f(X,X,0).
+%X != Y :: ~e(X,Y), f(X,Y,1).
+~f(_,_,k).
